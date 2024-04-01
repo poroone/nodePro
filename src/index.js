@@ -1,5 +1,7 @@
 const app = require("./app")
-const config=require("./app/config")
+require("./app/database")
+
+const config = require("./app/config")
 
 
 
