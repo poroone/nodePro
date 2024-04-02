@@ -1,4 +1,4 @@
-const connection = require("../../app/database")
+const connection = require("../app/database")
 // 和数据库进行连接并且返回结果
 class UserService {
     // 创建用户
@@ -17,7 +17,7 @@ class UserService {
     async getUserByName(name) {
         const statement = ` SELECT * FROM users WHERE username = ?;`
         const result = await connection.execute(statement, [name])
-        console.log(result[0])
+        // console.log(result)
         return result[0]
     }
 }
