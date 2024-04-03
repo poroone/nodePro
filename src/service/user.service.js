@@ -9,7 +9,7 @@ class UserService {
         console.log(username, password)
         const result = await connection.execute(statement, [username, password])
 
-        console.log(result, "****")
+        console.log(result[0], "****")
 
         return result[0]
     }
