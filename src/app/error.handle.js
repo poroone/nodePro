@@ -24,10 +24,13 @@ const errorHandle = (error, ctx) => {
             message = "无效的token"
             break;
         case errorType.TOKEN_IS_NULL:
-            status = 401;// 未授权
+            status = 401;// 未携带token
             message = "未携带token"
             break;
-
+        case errorType.NULLUNAUTHORIZATION:
+            status = 401;// 无权限
+            message = "没有权限"
+            break;
         default:
             status = 404;
             message = "NOT FOUND"
