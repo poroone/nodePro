@@ -9,7 +9,7 @@ class AuthController {
             algorithm: "RS256"
         })
 
-        console.log(ctx.user, "-------")
+
 
         ctx.body = {
             id,
@@ -17,7 +17,7 @@ class AuthController {
             token
         }
     }
-    async seccess(ctx, next) {
+    async success(ctx, next) {
         console.log("进入授权")
         ctx.body="已授权"
     }

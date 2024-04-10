@@ -1,5 +1,6 @@
 const jwt = require("jsonwebtoken")
 const errorType = require("../constents/error-type.js")
+const autoService = require("../service/auth.service.js")
 const service = require("../service/user.service")
 const md5 = require("../utils/passwordHandle.js")
 const { TOKEN_PUBLIC } = require("../app/config.js")
@@ -51,7 +52,7 @@ const verifyAuth = async (ctx, next) => {
         })
 
         ctx.user = result;
-
+        console.log("next");
         await next()
 
     } catch (err) {
@@ -59,9 +60,31 @@ const verifyAuth = async (ctx, next) => {
         const error = new Error(errorType.UNAUTHORIZATION)
         ctx.app.emit("error", error, ctx)
     }
+}
+// 用户是否有权限
+const verifyPermission = (tableName) => {
+    return async (ctx, next) => {
+        console.log("1")
+        const [resourceKey] = Object.keys(ctx.params)
+        const resourceId = ctx.params[resourceKey];
+        const { id } = ctx.user
+        console.log(resourceId, id,tableName, ctx.params)
+        try {
+            const isPermission = await autoService.checkAll(tableName, resourceId, id)
+            if (!isPermission) throw new Error()
+            console.log("***")
+            await next()
+        } catch (err) {
+            const error = new Error(errorType.NULLUNAUTHORIZATION)
+            ctx.app.emit('error', error, ctx)
+        }
+    }
+
 
 }
+
 module.exports = {
     verifyLogin,
-    verifyAuth
+    verifyAuth,
+    verifyPermission
 }
