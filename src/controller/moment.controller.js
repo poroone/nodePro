@@ -3,7 +3,6 @@ class MomentController {
     async create(ctx, next) {
         const { id } = ctx.user
         const { context } = ctx.request.body
-        console.log(id, context)
         const result = await momentService.create(id, context)
 
         ctx.body = result
@@ -15,8 +14,21 @@ class MomentController {
     }
     async list(ctx, next) {
         const { offset, size } = ctx.query;
-        console.log(offset, size)
+
         const result = await momentService.getMomentList(offset, size)
+        ctx.body = result
+    }
+    async updateMoment(ctx, next) {
+        const momentId = ctx.params.momentId;
+        const context = ctx.request.body.context;
+        const result = await momentService.setMomentUpdate(momentId, context)
+        console.log(result);
+        ctx.body = result
+    }
+    async removeMoment(ctx, next) {
+        const momentId = ctx.params.momentId
+
+        const result = await momentService.removeMoment(momentId)
         ctx.body = result
     }
 }
