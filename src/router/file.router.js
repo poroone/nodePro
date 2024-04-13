@@ -11,6 +11,6 @@ const avatarRouter = new Router({ prefix: '/upload' })
 
 
 avatarRouter.post("/:userId/avatar", verifyAuth, avatarHandler, avatarCreate)
-avatarRouter.get("/:userId/avatar", getAvatarInfo)
+avatarRouter.get("/:userId/avatar", getAvatarInfo )
 
 module.exports = avatarRouter   
