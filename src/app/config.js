@@ -13,6 +13,7 @@ module.exports = {
     MYSQL_DATABASE,
     MYSQL_ROOT,
     MYSQL_PASSWORD,
+    APP_HOST,
 } = process.env
 
 module.exports.TOKEN_PRIVATE = TOKEN_PRIVATE;

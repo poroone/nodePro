@@ -17,7 +17,7 @@ class MomentService {
             const statement = `
        
 			SELECT m.id id, m.context context, m.createAt createTime, m.updateAt updateTime,
-                JSON_OBJECT('id', u.id, 'username', u.username) user,
+                JSON_OBJECT('id', u.id, 'username', u.username,"avatar",u.avatar_url) user,
                 IF(
                     COUNT(l.id),
                     JSON_ARRAYAGG(
@@ -30,7 +30,9 @@ class MomentService {
 								(SELECT IF(COUNT(c.id),
                 JSON_ARRAYAGG(
                     JSON_OBJECT(
-                            'id',c.id ,'content',c.content,'userId',c.user_id,'commentId',c.comment_id,'createTime',c.createAt,'username',JSON_OBJECT("id",cu.id,"username",cu.username)
+                            'id',c.id ,'content',c.content,'userId',c.user_id,'commentId',c.comment_id,'createTime',c.createAt,'username',JSON_OBJECT(
+                                "id",cu.id,"username",cu.username
+                                )
                     )
                 ),
                 NULL
@@ -56,7 +58,7 @@ class MomentService {
     async getMomentList(offset, size) {
         console.log("result")
         const statement = `SELECT m.id id, m.context context, m.createAt createTime, m.updateAt updateTime,
-        JSON_OBJECT('id', u.id, 'username', u.username) user,
+        JSON_OBJECT('id', u.id, 'username', u.username,"avatar",u.avatar_url) user,
         ( SELECT COUNT(*) from comment c WHERE c.moment_id = m.id  ) commentCount,
         ( SELECT COUNT(*) from moment_label ml WHERE ml.moment_id = m.id  ) labelCount
         FROM moments m 
