@@ -21,7 +21,7 @@ class MomentService {
                 IF(COUNT(c.id),
                 JSON_ARRAYAGG(
                     JSON_OBJECT(
-                            'id',c.id ,'content',c.content,'userId',c.user_id,'commentId',c.comment_id,'createTime',c.createAt,"username",JSON_OBJECT("id",cu.i"username",cu.username)
+                            'id',c.id ,'content',c.content,'userId',c.user_id,'commentId',c.comment_id,'createTime',c.createAt,'username',JSON_OBJECT("id",cu.id,"username",cu.username)
                     )
                 ),
                 NULL
@@ -80,7 +80,7 @@ class MomentService {
         console.log(momentId, "***")
         const [result] = await connection.execute(statement, [momentId])
         console.log(result)
-        return result[0]
+        return result
     }
     async isMomentLabel(labelId, momentId) {
         const statement = `SELECT * FROM moment_label WHERE moment_id=? AND label_id=?`;
@@ -94,7 +94,6 @@ class MomentService {
         const [result] = await connection.execute(statement, [momentId, labelId])
         return result
     }
-
 }
 
 module.exports = new MomentService()

@@ -51,13 +51,11 @@ const verifyAuth = async (ctx, next) => {
         const result = jwt.verify(token, TOKEN_PUBLIC, {
             algorithms: ["RS256"]
         })
-
         ctx.user = result;
         console.log("next");
         await next()
-
     } catch (err) {
-        console.log("失败")
+        console.log("token验证失败")
         const error = new Error(errorType.UNAUTHORIZATION)
         ctx.app.emit("error", error, ctx)
     }

@@ -12,6 +12,13 @@ class LabelServer {
         console.log(result)
         return result[0]
     }
+    async getLabels(limit, offset) {
+        const stateMent = ` SELECT * FROM label LIMIT ?,?;`
+        const [result] = await connection.execute(stateMent, [limit,offset])
+        console.log(result)
+        return result
+    }
+
 }
 
 module.exports = new LabelServer()

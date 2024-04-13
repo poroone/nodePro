@@ -29,6 +29,7 @@ class MomentController {
         const momentId = ctx.params.momentId
 
         const result = await momentService.removeMoment(momentId)
+        console.log(result)
         ctx.body = result
     }
     async addMomentLabel(ctx, next) {
