@@ -16,16 +16,8 @@ class MomentService {
         try {
             const statement = `
        
-				SELECT m.id id, m.context context, m.createAt createTime, m.updateAt updateTime,
+			SELECT m.id id, m.context context, m.createAt createTime, m.updateAt updateTime,
                 JSON_OBJECT('id', u.id, 'username', u.username) user,
-                IF(COUNT(c.id),
-                JSON_ARRAYAGG(
-                    JSON_OBJECT(
-                            'id',c.id ,'content',c.content,'userId',c.user_id,'commentId',c.comment_id,'createTime',c.createAt,'username',JSON_OBJECT("id",cu.id,"username",cu.username)
-                    )
-                ),
-                NULL
-                ) comments,
                 IF(
                     COUNT(l.id),
                     JSON_ARRAYAGG(
@@ -34,11 +26,17 @@ class MomentService {
                         )
                     ),
                     NULL
-                )  labels
+                )  labels,
+								(SELECT IF(COUNT(c.id),
+                JSON_ARRAYAGG(
+                    JSON_OBJECT(
+                            'id',c.id ,'content',c.content,'userId',c.user_id,'commentId',c.comment_id,'createTime',c.createAt,'username',JSON_OBJECT("id",cu.id,"username",cu.username)
+                    )
+                ),
+                NULL
+                ) FROM comment c LEFT JOIN users cu ON c.user_id = cu.id WHERE m.id=c.moment_id   ) comment
                 FROM moments m 
                 LEFT JOIN users u ON m.user_id = u.id
-                        LEFT JOIN comment c ON c.moment_id = m.id
-                        LEFT JOIN users cu ON c.user_id = cu.id
                         LEFT JOIN moment_label ml ON m.id = ml.moment_id
                         LEFT JOIN label l ON  ml.label_id=l.id  
                         WHERE m.id = ?
