@@ -2,6 +2,7 @@ const jwt = require("jsonwebtoken")
 const errorType = require("../constents/error-type.js")
 const autoService = require("../service/auth.service.js")
 const service = require("../service/user.service")
+const labelServer = require("../service/label.service.js")
 const md5 = require("../utils/passwordHandle.js")
 const { TOKEN_PUBLIC } = require("../app/config.js")
 // 验证用户登录
@@ -68,7 +69,7 @@ const verifyPermission = (tableName) => {
         const [resourceKey] = Object.keys(ctx.params)
         const resourceId = ctx.params[resourceKey];
         const { id } = ctx.user
-        console.log(resourceId, id,tableName, ctx.params)
+        console.log(resourceId, id, tableName, ctx.params)
         try {
             const isPermission = await autoService.checkAll(tableName, resourceId, id)
             if (!isPermission) throw new Error()
@@ -83,8 +84,31 @@ const verifyPermission = (tableName) => {
 
 }
 
+
+const VerifyLabel = async (ctx, next) => {
+    const { labels } = ctx.request.body
+    const labelBody = []
+    for (let name of labels) {
+        console.log(name)
+        const isLabel = await labelServer.isLabel(name)
+        const labelName = { name }
+        console.log(isLabel)
+        if (!isLabel) {
+            const Label = await labelServer.create(name)
+            labelName.id = Label.insertId
+            console.log("注册标签")
+        } else {
+            console.log("收集标签")
+            labelName.id = isLabel.id
+        }
+        labelBody.push(labelName)
+    }
+    ctx.labels = labelBody
+    await next()
+}
 module.exports = {
     verifyLogin,
     verifyAuth,
-    verifyPermission
+    verifyPermission,
+    VerifyLabel
 }

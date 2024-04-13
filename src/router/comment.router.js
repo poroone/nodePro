@@ -7,7 +7,9 @@ const {
 const {
     create,
     reply,
-    update
+    update,
+    remove,
+    list
 } = require("../controller/comment.controller.js")
 // 评论
 comment.post("/", verifyAuth, create)
@@ -16,6 +18,7 @@ comment.post("/:commentId/reply", verifyAuth, reply)
 // 修改评论
 comment.patch("/:commentId", verifyAuth, verifyPermission("comment"), update)
 // 删除评论
-// comment.post("/", verifyAuth, remove)
-
+comment.delete("/:commentId", verifyAuth, verifyPermission("comment"), remove)
+// 获取评论列表
+comment.get("/", list)
 module.exports = comment

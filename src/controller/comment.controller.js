@@ -10,18 +10,30 @@ class CommentController {
     }
     async reply(ctx, next) {
         console.log(ctx)
-        const {commentId}=ctx.params;
-        const { content, moment_id,  } = ctx.request.body
+        const { commentId } = ctx.params;
+        const { content, moment_id, } = ctx.request.body
         const { id } = ctx.user;
         console.log(id)
-        const result = await commentService.reply(content, moment_id, commentId,id)
+        const result = await commentService.reply(content, moment_id, commentId, id)
         ctx.body = result
     }
-    async update(ctx,next){
-        const {commentId}=ctx.params;
-        const { content  } = ctx.request.body
-        console.log(content,commentId)
+    async update(ctx, next) {
+        const { commentId } = ctx.params;
+        const { content } = ctx.request.body
+        console.log(content, commentId)
         const result = await commentService.update(content, commentId)
+        ctx.body = result
+    }
+    async remove(ctx, next) {
+        const { commentId } = ctx.params;
+        console.log(commentId)
+        const result = await commentService.remove(commentId)
+
+        ctx.body = result
+    }
+    async list(ctx, next) {
+        const momentId = ctx.query.momentId
+        const result = await commentService.getCommentByMomentId(momentId)
         ctx.body = result
     }
 }

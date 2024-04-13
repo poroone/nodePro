@@ -12,6 +12,7 @@ class autoService {
             console.log(err)
         }
     }
+    
 }
 
 module.exports = new autoService()
