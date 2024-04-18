@@ -7,6 +7,8 @@ explorations
 TODOs.md
 *.log
 .idea
+.env
 .eslintcache
+.upload
 dts-build/packages
 *.tsbuildinfo
