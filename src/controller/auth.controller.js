@@ -9,8 +9,6 @@ class AuthController {
             algorithm: "RS256"
         })
 
-
-
         ctx.body = {
             id,
             username,
@@ -19,7 +17,7 @@ class AuthController {
     }
     async success(ctx, next) {
         console.log("进入授权")
-        ctx.body="已授权"
+        ctx.body = "已授权"
     }
 }
 

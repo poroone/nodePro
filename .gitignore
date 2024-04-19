@@ -12,3 +12,4 @@ TODOs.md
 .upload
 dts-build/packages
 *.tsbuildinfo
+node_modules/
