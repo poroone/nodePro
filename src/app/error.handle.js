@@ -31,13 +31,21 @@ const errorHandle = (error, ctx) => {
             status = 401;// 无权限
             message = "没有权限"
             break;
+        case errorType.NULLARGUMENT:
+            status = 401;
+            message = "缺少参数"
+            break;
+
         default:
             status = 404;
             message = "NOT FOUND"
     }
 
     ctx.status = status;
-    ctx.body = message
+    ctx.body = {
+        status,
+        message
+    }
 }
 
 module.exports = errorHandle;

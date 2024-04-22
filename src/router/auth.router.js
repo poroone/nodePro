@@ -12,6 +12,6 @@ const authRouter = new Router()
 
 authRouter.post("/login", verifyLogin, login)
 // 验证授权
-// authRouter.post("/Register",verifyLogin, success)
+// authRouter.post("/Register",verifyAuth, success)
 
 module.exports = authRouter

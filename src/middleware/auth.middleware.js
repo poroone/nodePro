@@ -82,7 +82,7 @@ const verifyPermission = (tableName) => {
 
 }
 
-
+// 标签
 const VerifyLabel = async (ctx, next) => {
     const { labels } = ctx.request.body
     const labelBody = []
